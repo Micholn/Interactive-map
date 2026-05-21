@@ -21,7 +21,16 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@components/*": ["./components"],
+      "@types/*": ["./types"],
+
+      // THIS IS THE CORRECT, WORKING MAPPING
+      "ethers": ["node_modules/ethers"],
+      "ethers/*": ["node_modules/ethers/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

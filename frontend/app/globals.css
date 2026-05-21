@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* React Flow Customizations */
+.react-flow__node {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: grab;
+}
+
+.react-flow__node:hover {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+  transform: translateY(-2px);
+}
+
+.react-flow__edge path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.react-flow__edge-label {
+  background: #18181b;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 1px solid #334155;
+}
+
+/* Custom Scrollbar */
+.overflow-auto::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 20px;
+}
+
+/* Nice button hover effects */
+button {
+  transition: all 0.1s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Panel styling */
+div[style*="backgroundColor"] {
+  transition: background-color 0.2s ease;
+}
