@@ -9,15 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@xyflow/react": "^12.10.2",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^1.14.0",
-    "next": "15.5.2",
-    "react": "19.1.0",
-    "react-chartjs-2": "^5.3.0",
-    "react-dom": "19.1.0",
-    "reactflow": "^11.11.4"
+    "@heroicons/react": "latest",
+    "clsx": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-force-graph-2d": "latest"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
