@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { ComponentType, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import {
   Activity,
   Bell,
@@ -25,12 +25,13 @@ import {
   Sparkles,
   Zap
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ecosystem } from '@/data/ecosystem';
 import { EcosystemNode, EntityCategory } from '@/types/graph';
 import InteractiveEcosystemGraph from '@/components/InteractiveEcosystemGraph';
 
-const categoryMeta: Record<EntityCategory | 'all', { label: string; icon: ComponentType<{ className?: string }>; color: string }> = {
+const categoryMeta: Record<EntityCategory | 'all', { label: string; icon: LucideIcon; color: string }> = {
   all: { label: 'All Stack', icon: Network, color: 'bg-[#dfff47] text-black' },
   model: { label: 'Models', icon: BrainCircuit, color: 'bg-[#caf95d] text-black' },
   lab: { label: 'Labs', icon: Sparkles, color: 'bg-[#d9f7ff] text-[#063a47]' },
