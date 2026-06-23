@@ -26,7 +26,7 @@ export default function InteractiveEcosystemGraph({
     return nodes.filter((node) => node.category === activeCategory);
   }, [nodes, activeCategory]);
 
-  // Generate links automatically (you can replace this later with real data)
+  // Generate links automatically
   const graphData = useMemo(() => {
     const nodeIds = new Set(filteredNodes.map((n) => n.id));
 
@@ -34,7 +34,6 @@ export default function InteractiveEcosystemGraph({
 
     filteredNodes.forEach((node) => {
       if (node.category === 'model') {
-        // Models usually connect to labs and frameworks
         const labs = filteredNodes.filter((n) => n.category === 'lab');
         const frameworks = filteredNodes.filter((n) => n.category === 'framework');
 
@@ -47,7 +46,6 @@ export default function InteractiveEcosystemGraph({
       }
 
       if (node.category === 'framework') {
-        // Frameworks often connect to hardware
         const hardware = filteredNodes.filter((n) => n.category === 'hardware');
         if (hardware.length > 0) {
           links.push({ source: node.id, target: hardware[0].id });
@@ -87,7 +85,7 @@ export default function InteractiveEcosystemGraph({
     <div className="w-full h-[520px] rounded-[32px] bg-white/70 shadow-[0_25px_80px_rgba(18,73,84,.14)] backdrop-blur overflow-hidden">
       <ForceGraph2D
         graphData={graphData}
-        width={undefined} // Let it fill the container
+        width={undefined}
         height={520}
         nodeLabel={(node: any) => `${node.name} (${node.category})`}
         nodeColor={getNodeColor}
@@ -103,7 +101,8 @@ export default function InteractiveEcosystemGraph({
           }
         }}
         enableNodeDrag={true}
-        enableZoomPanInteraction={true}
+        enableZoomInteraction={true}
+        enablePanInteraction={true}
         cooldownTicks={80}
       />
     </div>

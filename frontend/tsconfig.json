@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true, // ← Recommended
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
@@ -27,25 +27,19 @@
         "./*"
       ],
       "@components/*": [
-        "./components"
+        "./components/*"
       ],
       "@types/*": [
-        "./types"
-      ],
-      // THIS IS THE CORRECT, WORKING MAPPING
-      "ethers": [
-        "node_modules/ethers"
-      ],
-      "ethers/*": [
-        "node_modules/ethers/*"
+        "./types/*"
       ]
+      // Removed the ethers mappings (not needed)
     }
   },
   "include": [
     "next-env.d.ts",
-    ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
+    ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
