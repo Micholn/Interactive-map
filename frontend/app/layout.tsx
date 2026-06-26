@@ -1,15 +1,15 @@
-import './globals.css';
 import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AI Ecosystem Dependency Explorer',
-  description: 'Interactive dependency map of models, labs, frameworks, compute providers, and hardware.'
+  title: 'AI Ecosystem Explorer',
+  description: 'Interactive dependency map of AI models, labs, frameworks, compute providers and hardware choke points.'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="font-sans noise">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
