@@ -23,3 +23,4 @@ export type GraphData = {
   nodes: EcosystemNode[];
   links: EcosystemLink[];
 };
+
