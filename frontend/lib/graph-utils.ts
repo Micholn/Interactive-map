@@ -1,23 +1,62 @@
-import { EcosystemLink, EcosystemNode, EntityCategory } from '@/types/graph';
+import type { EcosystemData, EcosystemNode } from '@/types/graph';
 
-export const categoryStyles: Record<EntityCategory, { label: string; color: string; bg: string }> = {
-  model: { label: 'Model', color: '#38bdf8', bg: 'bg-sky-400/15 text-sky-200 border-sky-300/20' },
-  lab: { label: 'Lab', color: '#a78bfa', bg: 'bg-violet-400/15 text-violet-200 border-violet-300/20' },
-  framework: { label: 'Framework', color: '#34d399', bg: 'bg-emerald-400/15 text-emerald-200 border-emerald-300/20' },
-  compute: { label: 'Compute', color: '#f59e0b', bg: 'bg-amber-400/15 text-amber-200 border-amber-300/20' },
-  hardware: { label: 'Hardware', color: '#fb7185', bg: 'bg-rose-400/15 text-rose-200 border-rose-300/20' },
-  repository: { label: 'Repository', color: '#e879f9', bg: 'bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-300/20' }
-};
-
-export function getNodeDegree(nodeId: string, links: EcosystemLink[]) {
-  return links.filter((l) => l.source === nodeId || l.target === nodeId).length;
+export function getNodeById(data: EcosystemData, id: string) {
+  return data.nodes.find((node) => node.id === id);
 }
 
-export function getRelatedNodes(node: EcosystemNode, nodes: EcosystemNode[], links: EcosystemLink[]) {
-  const ids = new Set<string>();
-  links.forEach((link) => {
-    if (link.source === node.id) ids.add(String(link.target));
-    if (link.target === node.id) ids.add(String(link.source));
-  });
-  return nodes.filter((n) => ids.has(n.id));
+export function getConnectedNodes(data: EcosystemData, nodeId: string) {
+  const relatedIds = data.links
+    .filter((link) => link.source === nodeId || link.target === nodeId)
+    .map((link) => (link.source === nodeId ? link.target : link.source));
+
+  return data.nodes.filter((node) => relatedIds.includes(node.id));
+}
+
+export function getNodeRelationships(data: EcosystemData, nodeId: string) {
+  return data.links.filter((link) => link.source === nodeId || link.target === nodeId);
+}
+
+export function getDependencyPath(data: EcosystemData, startNodeId: string) {
+  const path: EcosystemNode[] = [];
+  let current = getNodeById(data, startNodeId);
+
+  while (current) {
+    path.push(current);
+    const preferredTypes = ['developed_by', 'uses', 'depends_on', 'runs_on', 'maintained_by'];
+    const nextLink = data.links.find(
+      (link) => link.source === current?.id && preferredTypes.includes(link.type)
+    );
+
+    if (!nextLink) break;
+
+    const nextNode = getNodeById(data, nextLink.target);
+    if (!nextNode || path.some((node) => node.id === nextNode.id)) break;
+
+    current = nextNode;
+  }
+
+  return path;
+}
+
+export function getTopCentralNodes(data: EcosystemData, limit = 5) {
+  return [...data.nodes].sort((a, b) => b.centrality - a.centrality).slice(0, limit);
+}
+
+export function getConcentrationRisk(data: EcosystemData) {
+  const hardwareNodes = data.nodes.filter((node) => node.category === 'hardware');
+  const computeNodes = data.nodes.filter((node) => node.category === 'compute');
+  const hardwareAverage = hardwareNodes.reduce((sum, node) => sum + node.centrality, 0) / hardwareNodes.length;
+  const computeAverage = computeNodes.reduce((sum, node) => sum + node.centrality, 0) / computeNodes.length;
+  return Math.round((hardwareAverage + computeAverage) / 2);
+}
+
+export function searchNodes(data: EcosystemData, query: string) {
+  const q = query.trim().toLowerCase();
+  if (!q) return data.nodes;
+  return data.nodes.filter((node) =>
+    [node.name, node.description, node.category, node.organization || '', ...node.tags]
+      .join(' ')
+      .toLowerCase()
+      .includes(q)
+  );
 }

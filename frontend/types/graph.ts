@@ -1,26 +1,40 @@
-export type EntityCategory = 'model' | 'lab' | 'framework' | 'compute' | 'hardware' | 'repository';
+export type EntityCategory = 'model' | 'lab' | 'framework' | 'repository' | 'compute' | 'hardware';
+
+export type RelationshipType =
+  | 'developed_by'
+  | 'uses'
+  | 'maintained_by'
+  | 'depends_on'
+  | 'runs_on'
+  | 'supports'
+  | 'partners_with'
+  | 'fine_tuned_from';
 
 export type EcosystemNode = {
   id: string;
   name: string;
   category: EntityCategory;
   description: string;
-  openness?: 'open' | 'closed' | 'mixed';
-  risk?: 'low' | 'medium' | 'high' | 'critical';
-  foundedOrReleased?: string;
-  tags: string[];
   centrality: number;
+  openStatus?: 'open' | 'closed' | 'mixed';
+  releaseDate?: string;
+  organization?: string;
+  tags: string[];
+  sources?: {
+    label: string;
+    url: string;
+  }[];
 };
 
 export type EcosystemLink = {
   source: string;
   target: string;
-  relationship: string;
-  strength: number;
+  type: RelationshipType;
+  label: string;
+  evidence?: string;
 };
 
-export type GraphData = {
+export type EcosystemData = {
   nodes: EcosystemNode[];
   links: EcosystemLink[];
 };
-
